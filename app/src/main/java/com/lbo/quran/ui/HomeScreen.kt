@@ -60,34 +60,33 @@ private fun buildWordsAnnotatedString(
     buildAnnotatedString {
         words.forEachIndexed { index, w ->
             if (index > 0) append(" ")
+
             val display = if (w.type == 3) {
                 if (quranFontKey == "taha") {
-                    // فونت طاها برای این کاراکتر (پایان‌آیه قرآنی) طرح دایره‌ای اختصاصی خودش را دارد
-                    "${w.text}\u06DD"
+                    ayahNumberGlyph(w.text.toInt())
                 } else {
                     "(${w.text})"
                 }
             } else w.text
+
             val color = when {
                 index < bismillahPrefixCount -> BISMILLAH_COLOR
                 w.type == 0 || w.type == 4 || w.type == 5 || w.type == 7 -> WAQF_MARK_COLOR
                 else -> textColor
             }
+
             val start = length
             withStyle(SpanStyle(color = color)) { append(display) }
+
             if (w.type == 3) {
-                // فاصله‌ی خالی بعد از نشان تزئینی پایان‌آیه؛ چون این کاراکتر معمولاً
-                // آخرین جزء متن است و فضای خالی بعدش وجود ندارد، موتور چیدمان متن
-                // نمی‌داند کجا سطر را بشکند و ممکن است از لبه‌ی کادر بیرون بزند.
-                // این فاصله یک نقطه‌ی شکست معتبر ایجاد می‌کند.
                 append(" ")
             }
+
             if (w.type == 1 || w.type == 6) {
                 addStringAnnotation(tag = WORD_TAG, annotation = index.toString(), start = start, end = length)
             }
         }
     }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
