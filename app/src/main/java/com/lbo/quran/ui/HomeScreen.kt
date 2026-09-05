@@ -45,7 +45,11 @@ private val WAQF_MARK_COLOR = Color(0xFF8B0000)   // زرشکی برای علا�
 private val BISMILLAH_COLOR = Color(0xFFB8860B)   // رنگ متفاوت (طلایی تیره) برای بسم‌الله
 private const val FATIHA_AYAH1_ID = "001001"       // آیه اول فاتحه؛ بسم‌الله همان چهار کلمه اول این آیه است
 private const val WORD_TAG = "word"
-
+// تبدیل شماره آیه به گلیف مخصوص فونت طهّا
+private fun ayahNumberGlyph(num: Int): String {
+    val base = 0xE900   // محدودهٔ رایج شماره‌های آیه در فونت‌های عثمان‌طه/طهّا
+    return String(Character.toChars(base + num))
+}
 /** ساخت متن حاشیه‌دار (رنگی) آیه از روی کلمات جدول Words_taha؛ همچنین هر کلمه‌ی
  *  عادی/بسم‌الله را با یک annotation قابل‌لمس مشخص می‌کند تا بشود روی آن لمس کرد
  *  و معنی‌اش را دید.
@@ -63,7 +67,7 @@ private fun buildWordsAnnotatedString(
 
             val display = if (w.type == 3) {
                 if (quranFontKey == "taha") {
-                    ayahNumberGlyph(w.text.toInt())
+                    ayahNumberGlyph(w.text.toInt())   // ✔ شماره آیه داخل دایره
                 } else {
                     "(${w.text})"
                 }
