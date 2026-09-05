@@ -75,6 +75,13 @@ private fun buildWordsAnnotatedString(
             }
             val start = length
             withStyle(SpanStyle(color = color)) { append(display) }
+            if (w.type == 3) {
+                // فاصله‌ی خالی بعد از نشان تزئینی پایان‌آیه؛ چون این کاراکتر معمولاً
+                // آخرین جزء متن است و فضای خالی بعدش وجود ندارد، موتور چیدمان متن
+                // نمی‌داند کجا سطر را بشکند و ممکن است از لبه‌ی کادر بیرون بزند.
+                // این فاصله یک نقطه‌ی شکست معتبر ایجاد می‌کند.
+                append(" ")
+            }
             if (w.type == 1 || w.type == 6) {
                 addStringAnnotation(tag = WORD_TAG, annotation = index.toString(), start = start, end = length)
             }
@@ -413,10 +420,11 @@ fun HomeScreen(
                                                 fontFamily = quranFontByKey(settings.quranFontKey),
                                                 fontSize = settings.quranFontSize.sp,
                                                 lineHeight = (settings.quranFontSize * 1.9).sp,
-                                                textAlign = TextAlign.Justify,
+                                                textAlign = TextAlign.Right,
                                                 onTextLayout = { textLayout = it },
                                                 modifier = Modifier
                                                     .fillMaxWidth()
+                                                    .padding(end = 6.dp)
                                                     .pointerInput(item.words) {
                                                         detectTapGestures { offset ->
                                                             val layout = textLayout ?: return@detectTapGestures
