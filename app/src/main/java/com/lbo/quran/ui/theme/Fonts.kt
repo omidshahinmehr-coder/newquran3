@@ -16,7 +16,7 @@ val MoshafFont = FontFamily(Font(R.font.moshaf))
 // وزن و سبک فونت طاها به‌صورت صریح Normal تنظیم شده تا سیستم روی آن سنتز
 // (شبه‌بولد/شبه‌ایتالیک) اعمال نکند؛ این سنتز باعث می‌شد نقطه‌های حروف
 // (مثل ت و ی) نازک‌تر/کم‌رنگ‌تر از باقی حروف دیده شوند.
-val TahaFont = FontFamily(Font(R.font.taha, weight = FontWeight.W400, style = FontStyle.Normal))
+val TahaFont = FontFamily(Font(R.font.taha, weight = FontWeight.Bold, style = FontStyle.Normal))
 //val TahaFont = FontFamily(Font(R.font.taha))
 val Moshaf2Font = FontFamily(Font(R.font.moshaf2))
 val Quran2Font = FontFamily(Font(R.font.quran2))
