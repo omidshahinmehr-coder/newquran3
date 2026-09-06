@@ -11,7 +11,7 @@ val EstedadFont = FontFamily(Font(R.font.estedad))
 val SGKaraFont = FontFamily(Font(R.font.sgkara))
 val Quran1Font = FontFamily(Font(R.font.quran1))
 val BadrFont = FontFamily(Font(R.font.badr))
-val MoshafFont = FontFamily(Font(R.font.moshaf))
+val MoshafFont = FontFamily(Font(R.font.moshaf, weight = FontWeight.Bold, style = FontStyle.Normal ))
 
 // وزن و سبک فونت طاها به‌صورت صریح Normal تنظیم شده تا سیستم روی آن سنتز
 // (شبه‌بولد/شبه‌ایتالیک) اعمال نکند؛ این سنتز باعث می‌شد نقطه‌های حروف
