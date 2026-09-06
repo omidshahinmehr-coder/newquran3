@@ -45,11 +45,7 @@ private val WAQF_MARK_COLOR = Color(0xFF8B0000)   // زرشکی برای علا�
 private val BISMILLAH_COLOR = Color(0xFFB8860B)   // رنگ متفاوت (طلایی تیره) برای بسم‌الله
 private const val FATIHA_AYAH1_ID = "001001"       // آیه اول فاتحه؛ بسم‌الله همان چهار کلمه اول این آیه است
 private const val WORD_TAG = "word"
-// تبدیل شماره آیه به گلیف مخصوص فونت طهّا
-private fun ayahNumberGlyph(num: Int): String {
-    val base = 0xE900   // محدودهٔ رایج شماره‌های آیه در فونت‌های عثمان‌طه/طهّا
-    return String(Character.toChars(base + num))
-}
+
 /** ساخت متن حاشیه‌دار (رنگی) آیه از روی کلمات جدول Words_taha؛ همچنین هر کلمه‌ی
  *  عادی/بسم‌الله را با یک annotation قابل‌لمس مشخص می‌کند تا بشود روی آن لمس کرد
  *  و معنی‌اش را دید.
@@ -64,33 +60,35 @@ private fun buildWordsAnnotatedString(
     buildAnnotatedString {
         words.forEachIndexed { index, w ->
             if (index > 0) append(" ")
-
             val display = if (w.type == 3) {
                 if (quranFontKey == "taha") {
-                    ayahNumberGlyph(w.text.toInt())   // ✔ شماره آیه داخل دایره
+                    // فونت طاها برای این کاراکتر (پایان‌آیه قرآنی) طرح دایره‌ای اختصاصی خودش را دارد
+                  //  "${w.text}\u06DD"
+                   "(${w.text})" 
                 } else {
                     "(${w.text})"
                 }
             } else w.text
-
             val color = when {
                 index < bismillahPrefixCount -> BISMILLAH_COLOR
                 w.type == 0 || w.type == 4 || w.type == 5 || w.type == 7 -> WAQF_MARK_COLOR
                 else -> textColor
             }
-
             val start = length
             withStyle(SpanStyle(color = color)) { append(display) }
-
             if (w.type == 3) {
+                // فاصله‌ی خالی بعد از نشان تزئینی پایان‌آیه؛ چون این کاراکتر معمولاً
+                // آخرین جزء متن است و فضای خالی بعدش وجود ندارد، موتور چیدمان متن
+                // نمی‌داند کجا سطر را بشکند و ممکن است از لبه‌ی کادر بیرون بزند.
+                // این فاصله یک نقطه‌ی شکست معتبر ایجاد می‌کند.
                 append(" ")
             }
-
             if (w.type == 1 || w.type == 6) {
                 addStringAnnotation(tag = WORD_TAG, annotation = index.toString(), start = start, end = length)
             }
         }
     }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
